@@ -1,6 +1,6 @@
 package br.com.atividade.AtividadeStreamSpring.consultasAPI;
 
-public enum TIPO_VEICULO {
+public enum TipoVeiculo {
     CARRO,
     MOTO,
     CAMINHAO

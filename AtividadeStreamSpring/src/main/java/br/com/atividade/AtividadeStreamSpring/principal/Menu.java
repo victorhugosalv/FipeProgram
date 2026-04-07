@@ -1,18 +1,29 @@
 package br.com.atividade.AtividadeStreamSpring.principal;
 
-import br.com.atividade.AtividadeStreamSpring.consultasAPI.TIPO_VEICULO;
+import br.com.atividade.AtividadeStreamSpring.consultasAPI.TipoVeiculo;
 import br.com.atividade.AtividadeStreamSpring.institutoFIPE.InstitutoFIPE;
 import br.com.atividade.AtividadeStreamSpring.models.Veiculo;
 import br.com.atividade.AtividadeStreamSpring.records.AnoDados;
 import br.com.atividade.AtividadeStreamSpring.records.MarcaDados;
 import br.com.atividade.AtividadeStreamSpring.records.ModeloDados;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class Menu {
 
-    private final Scanner scan = new Scanner(System.in);
-    private final InstitutoFIPE institutoFIPE = new InstitutoFIPE();
+
+    private Scanner scan;
+    private InstitutoFIPE institutoFIPE;
+
+    @Autowired
+    public Menu(InstitutoFIPE institutoFIPE){
+        this.scan = new Scanner(System.in);
+        this.institutoFIPE = institutoFIPE;
+    }
+
 
     public void exibirMenu(){
 
@@ -32,7 +43,7 @@ public class Menu {
         );
     }
 
-    public TIPO_VEICULO exibirEscolhaTipoVeiculo() {
+    public TipoVeiculo exibirEscolhaTipoVeiculo() {
 
         System.out.print("""
                 
@@ -43,20 +54,20 @@ public class Menu {
                 =====================================================
                 Escolha Qual Tipo de Veículo você quer consultar:
                 """);
-        int tipoVeiculo = scan.nextInt();
-        scan.nextLine();
+        int tipoVeiculo = Integer.parseInt(scan.nextLine());
 
-        TIPO_VEICULO tipoVeic = switch (tipoVeiculo){
-            case 1 -> TIPO_VEICULO.CARRO;
-            case 2 -> TIPO_VEICULO.MOTO;
-            case 3 -> TIPO_VEICULO.CAMINHAO;
+
+        TipoVeiculo tipoVeic = switch (tipoVeiculo){
+            case 1 -> TipoVeiculo.CARRO;
+            case 2 -> TipoVeiculo.MOTO;
+            case 3 -> TipoVeiculo.CAMINHAO;
             default -> null;
         };
         return tipoVeic;
 
     }
 
-    public Integer exibirEscolhaMarca(TIPO_VEICULO tipo){
+    public Integer exibirEscolhaMarca(TipoVeiculo tipo){
 
         List<MarcaDados> marcas = institutoFIPE.obterMarcas(tipo);
 
@@ -77,7 +88,7 @@ public class Menu {
     }
 
 
-    public Integer exibirEscolhaModelo(TIPO_VEICULO tipoVeiculo, Integer codigoMarca){
+    public Integer exibirEscolhaModelo(TipoVeiculo tipoVeiculo, Integer codigoMarca){
         List<ModeloDados> modelos = institutoFIPE.obterModelos(tipoVeiculo,codigoMarca);
 
         modelos.stream()
@@ -90,7 +101,7 @@ public class Menu {
         return Integer.parseInt(scan.nextLine());
     }
 
-    public String exibirAnosPorModelo(TIPO_VEICULO tipoVeiculo, Integer codigoMarca, Integer codigoModelo){
+    public String exibirAnosPorModelo(TipoVeiculo tipoVeiculo, Integer codigoMarca, Integer codigoModelo){
         List<AnoDados> anos = institutoFIPE.obterAnosPeloModelo(tipoVeiculo,codigoMarca,codigoModelo);
 
         anos.stream()
@@ -103,7 +114,7 @@ public class Menu {
         return scan.nextLine();
     }
 
-    public String exibirAnosPelaMarca(TIPO_VEICULO tipoVeiculo, Integer codigoMarca){
+    public String exibirAnosPelaMarca(TipoVeiculo tipoVeiculo, Integer codigoMarca){
         List<AnoDados> anos = institutoFIPE.obterAnosPelaMarca(tipoVeiculo,codigoMarca);
 
         anos.stream()
@@ -115,7 +126,7 @@ public class Menu {
 
         return scan.nextLine();
     }
-    public Integer exibirModelosPelaMarcaEAno(TIPO_VEICULO tipoVeiculo, Integer codigoMarca, String codigoAno) {
+    public Integer exibirModelosPelaMarcaEAno(TipoVeiculo tipoVeiculo, Integer codigoMarca, String codigoAno) {
         List<ModeloDados> modelos = institutoFIPE.obterModelosPelaMarcaEAno(tipoVeiculo,codigoMarca,codigoAno);
 
         modelos.stream()
@@ -128,7 +139,7 @@ public class Menu {
     }
 
 
-    public Veiculo exibirFipeDeUmVeiculo(TIPO_VEICULO tipoVeiculo, Integer codigoMarca, Integer codigoModelo, String codigoAno){
+    public Veiculo exibirFipeDeUmVeiculo(TipoVeiculo tipoVeiculo, Integer codigoMarca, Integer codigoModelo, String codigoAno){
         return institutoFIPE.obterFipeDeUmVeiculo(tipoVeiculo,codigoMarca,codigoModelo,codigoAno);
     }
 
@@ -137,7 +148,7 @@ public class Menu {
     public void rodarPrograma(){
         boolean continuarRodando = true;
 
-        TIPO_VEICULO tipoVeiculo;
+        TipoVeiculo tipoVeiculo;
         Integer numeroMarca;
         Integer numeroModelo;
         String numeroAno;

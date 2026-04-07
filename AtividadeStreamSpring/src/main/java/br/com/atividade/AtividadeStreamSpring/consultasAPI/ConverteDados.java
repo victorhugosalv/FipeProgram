@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ConverteDados implements IConverteDados {
     private ObjectMapper mapper = new ObjectMapper();
 
