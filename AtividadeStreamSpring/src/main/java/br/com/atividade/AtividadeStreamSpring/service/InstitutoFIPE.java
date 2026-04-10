@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-@Component
+@Service
 public class InstitutoFIPE {
 
     private final String ENDERECO = "https://fipe.parallelum.com.br/api/v2/";
