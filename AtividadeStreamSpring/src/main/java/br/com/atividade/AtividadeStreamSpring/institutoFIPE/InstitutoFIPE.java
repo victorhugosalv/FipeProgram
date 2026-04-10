@@ -10,7 +10,9 @@ import br.com.atividade.AtividadeStreamSpring.records.ModeloDados;
 import br.com.atividade.AtividadeStreamSpring.records.VeiculoFipeDados;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -21,41 +23,48 @@ public class InstitutoFIPE {
     private final ConsultaAPI consulta;
     private final ConverteDados conversor;
 
-    public InstitutoFIPE() {
-        this.consulta = new ConsultaAPI();
-        this.conversor = new ConverteDados();
+    public InstitutoFIPE(ConsultaAPI consulta, ConverteDados conversor) {
+        this.consulta = consulta;
+        this.conversor = conversor;
     }
 
     public List<MarcaDados> obterMarcas(TipoVeiculo tipoVeiculo){
         var json = consulta.obterDados(ENDERECO + complementingURL(tipoVeiculo));
-        return conversor.obterDadosEmLista(json, MarcaDados.class);
+        return ordenaLista(conversor.obterDadosEmLista(json, MarcaDados.class), Comparator.comparing(MarcaDados::codigo));
     }
 
     public List<ModeloDados> obterModelos(TipoVeiculo tipoVeiculo, Integer codigoMarca){
         var json = consulta.obterDados(ENDERECO + complementingURL(tipoVeiculo) + "/" + codigoMarca + "/models");
-        return conversor.obterDadosEmLista(json, ModeloDados.class);
+        return ordenaLista(conversor.obterDadosEmLista(json, ModeloDados.class), Comparator.comparing(ModeloDados::codigo));
     }
-
 
     public List<AnoDados> obterAnosPeloModelo(TipoVeiculo tipoVeiculo, Integer codigoMarca, Integer codigoModelo){
         var json = consulta.obterDados(ENDERECO + complementingURL(tipoVeiculo) + "/" + codigoMarca + "/models/" + codigoModelo + "/years");
-        return conversor.obterDadosEmLista(json, AnoDados.class);
+        return ordenaLista(conversor.obterDadosEmLista(json, AnoDados.class), Comparator.comparing(AnoDados::codigoAno));
     }
 
     public List<AnoDados> obterAnosPelaMarca(TipoVeiculo tipoVeiculo, Integer codigoMarca){
         var json = consulta.obterDados(ENDERECO + complementingURL(tipoVeiculo) + "/" + codigoMarca + "/years");
-        return conversor.obterDadosEmLista(json, AnoDados.class);
+        return ordenaLista(conversor.obterDadosEmLista(json, AnoDados.class), Comparator.comparing(AnoDados::codigoAno));
     }
 
     public List<ModeloDados> obterModelosPelaMarcaEAno(TipoVeiculo tipoVeiculo, Integer codigoMarca, String codigoAno){
         var json = consulta.obterDados(ENDERECO + complementingURL(tipoVeiculo) + "/" + codigoMarca + "/years/" + codigoAno + "/models");
-        return conversor.obterDadosEmLista(json, ModeloDados.class);
+        return ordenaLista(conversor.obterDadosEmLista(json, ModeloDados.class), Comparator.comparing(ModeloDados::codigo));
     }
 
     public Veiculo obterFipeDeUmVeiculo(TipoVeiculo tipoVeiculo, Integer codigoMarca, Integer codigoModelo, String codigoAno){
         var json = consulta.obterDados(ENDERECO + complementingURL(tipoVeiculo) + "/" + codigoMarca + "/models/" + codigoModelo + "/years/" + codigoAno);
         VeiculoFipeDados veiculoFipeDados = conversor.obterDados(json, VeiculoFipeDados.class);
         return new Veiculo(veiculoFipeDados);
+    }
+
+    public Integer buscarCodigoDaMarca(List<MarcaDados> marcas, String nomeMarca){
+        return marcas.stream()
+                .filter(m -> m.nome().toUpperCase().contains(nomeMarca.toUpperCase()))
+                .findFirst()
+                .map(MarcaDados::codigo)
+                .orElseThrow(() -> new IllegalArgumentException("Marca não encontrada"));
     }
 
     //Metodo Complementar
@@ -68,4 +77,10 @@ public class InstitutoFIPE {
         };
         return complementoUrl;
     }
+
+    private <T> List<T> ordenaLista(List<T> lista, Comparator<T> comparator){
+        return lista.stream().sorted(comparator).toList();
+    }
+
+
 }

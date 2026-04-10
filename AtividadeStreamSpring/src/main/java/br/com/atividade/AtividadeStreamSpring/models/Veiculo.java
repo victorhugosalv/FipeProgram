@@ -27,10 +27,9 @@ public class Veiculo {
         this.modelo = veiculoFipeDados.modelo();
         this.ano = veiculoFipeDados.ano();
         this.preco = veiculoFipeDados.preco();
-        if (veiculoFipeDados.precoHistorico() !=  null){
-            this.historicoPreco = veiculoFipeDados.precoHistorico();
-        } else {
-        }
+        this.historicoPreco = (veiculoFipeDados.precoHistorico() != null)
+                ? veiculoFipeDados.precoHistorico()
+                : new ArrayList<>();
         this.mesReferencia = veiculoFipeDados.mesReferencia();
         this.codigoTipoVeiculo = veiculoFipeDados.tipoVeiculo();
         this.tipoCombustivel = veiculoFipeDados.tipoCombustivel();
@@ -116,17 +115,19 @@ public class Veiculo {
         this.tipoCombustivel = tipoCombustivel;
     }
 
+    public String exibirResumo() {
+        return "Veículo: %s %s (%s) - Preço Atual: %s"
+                .formatted(marca, modelo, ano, preco);
+    }
+
     @Override
     public String toString() {
-        return  "marca='" + marca + '\'' +
-                ", codigoFipe='" + codigoFipe + '\'' +
-                ", combustivel='" + combustivel + '\'' +
-                ", modelo='" + modelo + '\'' +
-                ", ano=" + ano +
-                ", preco=" + preco +
-                ", historicoPreco=" + historicoPreco +
-                ", mesReferencia='" + mesReferencia + '\'' +
-                ", codigoTipoVeiculo=" + codigoTipoVeiculo +
-                ", tipoCombustivel=" + tipoCombustivel;
+        String historico = (historicoPreco == null || historicoPreco.isEmpty())
+                ? "Indisponível" : historicoPreco.toString();
+        return """
+           Modelo: %s | Marca: %s
+           Ano: %s | Preço: %s
+           Histórico: %s
+           """.formatted(modelo, marca, ano, preco, historico);
     }
 }
