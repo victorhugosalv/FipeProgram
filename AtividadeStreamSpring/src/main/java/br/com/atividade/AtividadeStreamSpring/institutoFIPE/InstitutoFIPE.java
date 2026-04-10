@@ -8,14 +8,14 @@ import br.com.atividade.AtividadeStreamSpring.records.AnoDados;
 import br.com.atividade.AtividadeStreamSpring.records.MarcaDados;
 import br.com.atividade.AtividadeStreamSpring.records.ModeloDados;
 import br.com.atividade.AtividadeStreamSpring.records.VeiculoFipeDados;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 
-@Service
+@Component
 public class InstitutoFIPE {
 
     private final String ENDERECO = "https://fipe.parallelum.com.br/api/v2/";

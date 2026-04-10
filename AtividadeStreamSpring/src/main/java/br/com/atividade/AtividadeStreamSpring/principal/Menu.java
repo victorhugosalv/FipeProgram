@@ -14,14 +14,14 @@ import java.util.function.Function;
 @Component
 public class Menu {
 
-    private final Scanner scan;
-    private final InstitutoFIPE institutoFIPE;
+    private Scanner scan = new Scanner(System.in);
+    private InstitutoFIPE institutoFIPE;
 
     @Autowired
     public Menu(InstitutoFIPE institutoFIPE) {
-        this.scan = new Scanner(System.in);
         this.institutoFIPE = institutoFIPE;
     }
+
 
     public void rodarPrograma() {
         boolean continuarRodando = true;
@@ -34,8 +34,10 @@ public class Menu {
                 switch (opcao) {
                     case 1 :
                         System.out.println(buscarVeiculoCompleto().exibirResumo());
+                        break;
                     case 2 :
                         System.out.println(buscarVeiculoCompleto());
+                        break;
                     case 3:
                         //TODO
                         break;
