@@ -1,15 +1,14 @@
-package br.com.atividade.AtividadeStreamSpring.institutoFIPE;
+package br.com.atividade.AtividadeStreamSpring.service;
 
-import br.com.atividade.AtividadeStreamSpring.consultasAPI.ConsultaAPI;
-import br.com.atividade.AtividadeStreamSpring.consultasAPI.ConverteDados;
-import br.com.atividade.AtividadeStreamSpring.consultasAPI.TipoVeiculo;
+import br.com.atividade.AtividadeStreamSpring.utils.ConsultaAPI;
+import br.com.atividade.AtividadeStreamSpring.utils.ConverteDados;
+import br.com.atividade.AtividadeStreamSpring.utils.TipoVeiculo;
 import br.com.atividade.AtividadeStreamSpring.models.Veiculo;
 import br.com.atividade.AtividadeStreamSpring.records.AnoDados;
 import br.com.atividade.AtividadeStreamSpring.records.MarcaDados;
 import br.com.atividade.AtividadeStreamSpring.records.ModeloDados;
 import br.com.atividade.AtividadeStreamSpring.records.VeiculoFipeDados;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;

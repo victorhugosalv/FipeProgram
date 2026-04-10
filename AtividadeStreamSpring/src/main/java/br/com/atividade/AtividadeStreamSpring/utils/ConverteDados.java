@@ -1,4 +1,4 @@
-package br.com.atividade.AtividadeStreamSpring.consultasAPI;
+package br.com.atividade.AtividadeStreamSpring.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;

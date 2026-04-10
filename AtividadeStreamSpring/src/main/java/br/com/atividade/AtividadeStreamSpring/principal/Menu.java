@@ -1,7 +1,7 @@
 package br.com.atividade.AtividadeStreamSpring.principal;
 
-import br.com.atividade.AtividadeStreamSpring.consultasAPI.TipoVeiculo;
-import br.com.atividade.AtividadeStreamSpring.institutoFIPE.InstitutoFIPE;
+import br.com.atividade.AtividadeStreamSpring.utils.TipoVeiculo;
+import br.com.atividade.AtividadeStreamSpring.service.InstitutoFIPE;
 import br.com.atividade.AtividadeStreamSpring.models.Veiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package br.com.atividade.AtividadeStreamSpring.consultasAPI;
+package br.com.atividade.AtividadeStreamSpring.utils;
 
 public enum TipoVeiculo {
     CARRO(1),
